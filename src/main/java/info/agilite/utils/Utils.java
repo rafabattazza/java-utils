@@ -79,6 +79,26 @@ public class Utils {
 			throw new RuntimeException("Erro ao criptografar senha", e);
 		}
 	}
+	
+	public static String createMD5(String chave) {
+		return createMD5(chave, 1);
+	}
+	
+	public static String createMD5(String chave, int fases) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			
+			for(int i = 0; i < fases; i++) {
+				byte[] strSnh = chave.getBytes();
+				md.update(strSnh);
+				chave = new BigInteger(1, md.digest()).toString(16);
+			}
+			
+			return chave;
+		} catch (Exception e) {
+			throw new RuntimeException("Erro ao criptografar senha", e);
+		}
+	}
 
 	/**
 	 * Cria um MAP baseado nos valores passados, os valores devem ser informados em pares, o primeiro será a Key e o segundo será o value
