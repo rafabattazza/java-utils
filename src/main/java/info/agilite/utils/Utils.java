@@ -174,6 +174,17 @@ public class Utils {
 		
 		return result;
 	}
+
+	public static Map<String, Object> convertJpaTupleToNestedMap(String fields, Object[] rowData){
+		List<String> fieldList = Splitter.on(",").trimResults().splitToList(fields);
+		
+		Map<String, Object> row = new HashMap<>();
+		for(int i = 0; i < fieldList.size(); i++) {
+			row.put(fieldList.get(i), rowData[i]);
+		}
+		return convertToNestedMap(row);
+	}
+
 	
 	public static List<Map<String, Object>> convertJpaListTupleToNestedMap(String fields, List<Object[]> data){
 		List<Map<String, Object>> result = new ArrayList<>();
