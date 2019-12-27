@@ -202,12 +202,7 @@ public class Utils {
 	}
 
 	
-	public static <T> List<T> list(T ... ts){
-		List<T> result = new ArrayList<>();
-		result.addAll(Arrays.asList(ts));
-		
-		return result;
-	}
+	
 
 	public static boolean isAllNull(Object ... values) {
 		for (Object object : values) {
