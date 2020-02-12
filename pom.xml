@@ -5,7 +5,7 @@
 
 	<groupId>info.agilite</groupId>
 	<artifactId>java-utils</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.5</version>
 	<packaging>jar</packaging>
 
 	<name>java-utils</name>
@@ -21,12 +21,12 @@
 		<dependency>
 		    <groupId>com.google.guava</groupId>
 		    <artifactId>guava</artifactId>
-		    <version>27.0-jre</version>
+		    <version>28.2-jre</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
-		    <version>1.18.4</version>
+		    <version>1.18.12</version>
 		    <scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -39,6 +39,21 @@
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.10.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.datatype</groupId>
+		    <artifactId>jackson-datatype-jsr310</artifactId>
+		    <version>2.10.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>2.13.0</version>
 		</dependency>
 	</dependencies>
 	
