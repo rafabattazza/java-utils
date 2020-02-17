@@ -13,6 +13,7 @@ public class JSonMapperCreator {
 		if(jsonMapper == null) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			config(objectMapper);
+			jsonMapper = objectMapper;
 		}
 
 		return jsonMapper;
