@@ -334,8 +334,15 @@ public class StringUtils {
 		return text;
 	}
 	
-	public static String createSelectWithAlias(String className, String fields) {
+	public static String createSelectWithAlias(String classAlias, String fields) {
+		return createSelectWithAlias(classAlias, fields, false);
+	}
+	
+	public static String createSelectWithAlias(String classAlias, String fields, boolean classAliasOnField) {
 		List<String> fieldList = Splitter.on(",").trimResults().splitToList(fields);
-		return fieldList.stream().map(field -> StringUtils.concat(className, ".", field, " as ", field)).collect(Collectors.joining(", "));
+		return fieldList.stream().map(field -> {
+			String fieldAlias = classAliasOnField ? concat(classAlias, "_", field) : field;
+			return StringUtils.concat(classAlias, ".", field, " as ", fieldAlias);
+		}).collect(Collectors.joining(", "));
 	}
 }

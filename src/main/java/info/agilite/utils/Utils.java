@@ -5,13 +5,13 @@ import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import com.google.common.base.Splitter;
@@ -174,6 +174,36 @@ public class Utils {
 		
 		return result;
 	}
+	
+	public static List<Map<String, Object>> agrupar(List<Map<String, Object>> dados, String colunas){
+		List<Map<String, Object>> result = new ArrayList<>();
+		
+		for(Map<String, Object> row : dados) {
+			if(result.size() == 0) {
+				result.add(row);
+			}else {
+				Map<String, Object> filteredMap = filterMap(row, k -> colunas.contains(k));
+				Map<String, Object> filteredLast = filterMap(result.get(result.size()-1), k -> colunas.contains(k));
+				
+				if(!filteredLast.equals(filteredMap)) {
+					result.add(row);
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	public static Map<String, Object> filterMap(Map<String, Object> dados, Predicate<String> keyFilter) {
+		Map<String, Object> result = new HashMap<>();
+		for (String key : dados.keySet()) {
+			if(keyFilter.test(key)) {
+				result.put(key, dados.get(key));
+			}
+		}
+		
+		return result;
+	}
 
 	public static Map<String, Object> convertJpaTupleToNestedMap(String fields, Object[] rowData){
 		List<String> fieldList = Splitter.on(",").trimResults().splitToList(fields);
@@ -182,6 +212,7 @@ public class Utils {
 		for(int i = 0; i < fieldList.size(); i++) {
 			row.put(fieldList.get(i), rowData[i]);
 		}
+		
 		return convertToNestedMap(row);
 	}
 
@@ -200,8 +231,6 @@ public class Utils {
 		
 		return result;
 	}
-
-	
 	
 
 	public static boolean isAllNull(Object ... values) {
