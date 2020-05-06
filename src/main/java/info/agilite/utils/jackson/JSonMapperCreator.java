@@ -32,7 +32,6 @@ public class JSonMapperCreator {
 		objectMapper.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
 		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 		
-		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		objectMapper.registerModule(new Hibernate5Module());
 		objectMapper.registerModule(new JavaTimeModule());
 	}
