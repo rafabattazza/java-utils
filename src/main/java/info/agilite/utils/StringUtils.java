@@ -95,6 +95,10 @@ public class StringUtils {
 		return message.substring( start, end );
 	}
 
+	public static boolean equalsIgnoreCase(String a, String b) {
+		if(a == null)return false;
+		return a.equalsIgnoreCase(b);
+	}
 
 	public static String substringAfterLast(String texto, String character) {
 		int index = texto.toUpperCase().lastIndexOf(character.toUpperCase());
