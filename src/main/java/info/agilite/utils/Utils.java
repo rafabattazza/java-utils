@@ -51,6 +51,9 @@ public class Utils {
 	public static boolean isEmpty(Collection<?> collection) {
 		return collection == null || collection.size() == 0;
 	}
+	public static boolean isEmpty(String value) {
+		return value == null || value.trim().length() == 0;
+	}
 	
 	public static boolean jsBoolean(Object value) {
 		if(value == null)return false;

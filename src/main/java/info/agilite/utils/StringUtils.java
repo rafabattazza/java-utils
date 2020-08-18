@@ -69,6 +69,14 @@ public class StringUtils {
 		return string.equalsIgnoreCase(value);
 	}
 	
+	@SafeVarargs
+	public static String firstNotEmpty(String ... values) {
+		for(String val : values) {
+			if(!isNullOrEmpty(val))return val;
+		}
+		return "";
+	}
+	
 	public static String getStackTrace(Throwable t) {
 		try {
 			try(StringWriter sr = new StringWriter(); PrintWriter wr = new PrintWriter(sr)){
