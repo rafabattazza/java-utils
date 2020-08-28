@@ -307,6 +307,12 @@ public class StringUtils {
 		return normalized.toString();
 	}
 	
+	/**
+	 * 
+	 * @param pattern Mensagem a ser exibida com {} sendo utilizado para o template dos parametros
+	 * @param params Parâmetros que irão substituir os {}  da mensagem em seu respectivo indice
+	 * @return
+	 */
 	public static String message(String pattern, Object ... params) {
 		return StringMessage.create(pattern).params(params).get();
 	}
@@ -356,5 +362,10 @@ public class StringUtils {
 			String fieldAlias = classAliasOnField ? concat(classAlias, "_", field) : field;
 			return StringUtils.concat(classAlias, ".", field, " as ", fieldAlias);
 		}).collect(Collectors.joining(", "));
+	}
+	
+	public static String repeate(String val, int size) {
+		if(val == null || val.length() == 0 || size == 0)return "";
+		return new String(new char[size]).replace("\0", val);
 	}
 }

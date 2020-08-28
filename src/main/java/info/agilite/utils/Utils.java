@@ -159,6 +159,22 @@ public class Utils {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static <V> Map<String, V> mapWithStringKeys(Object ... keyAndValues){
+		if(keyAndValues == null || keyAndValues.length == 0)return null;
+		if(keyAndValues.length % 2 != 0)throw new RuntimeException("Deve ser informado um número par de parâmetros para gerar o MAP");
+
+		Map retorno = new TreeMap<>();
+		for(int i = 0; i < keyAndValues.length; i+=2) {
+			Object key = keyAndValues[i].toString();
+			Object value = keyAndValues[i+1];
+			retorno.put(key, value);
+		}
+
+		return retorno;
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map<String, Object> convertToNestedMap(Map<String, Object>  map){
 		Map<String, Object> result = new HashMap<String, Object>();
 		
