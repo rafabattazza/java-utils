@@ -1,7 +1,7 @@
 package info.agilite.utils.xml;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.xml.XMLConstants;
@@ -15,7 +15,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class ElementXmlConverter {
@@ -53,7 +52,7 @@ public class ElementXmlConverter {
 	public static ElementXml string2Element(String xml) {
 		synchronized (builder) {
 			try {
-				return new ElementXml(builder.parse(new InputSource(new StringReader(xml))));	
+				return new ElementXml(builder.parse(new ByteArrayInputStream(xml.getBytes("UTF-8"))));	
 			} catch (IOException | SAXException e) {
 				throw new RuntimeException("Erro ao criar ElementXml", e);
 			}
