@@ -1,18 +1,65 @@
 package info.agilite.utils.s3;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.http.HttpStatus;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.ObjectListing;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.util.IOUtils;
 
-public class S3Utils {
-	private static final String BUCKET_NAME = "info.agilite.api";
-	
-	public static void putString(AmazonS3 s3, S3Type type, String key, String data) throws IOException {
-		s3.putObject(BUCKET_NAME, type.toString() + "/" + key, data);
+
+public class S3Utils {	
+	public static void putString(AmazonS3 s3, String buscketName, String key, String data) throws IOException {
+		s3.putObject(buscketName, key, data);
 	}
 	
-	public static void putBytes(AmazonS3 s3, S3Type type, String key, byte[] data) throws IOException {
-		s3.putObject(BUCKET_NAME, type.toString() + "/" + key, new ByteArrayInputStream(data), null);
+	public static void putBytes(AmazonS3 s3, String buscketName, String key, byte[] data) throws IOException {
+		s3.putObject(buscketName, key, new ByteArrayInputStream(data), null);
+	}
+	
+	public static void putFile(AmazonS3 s3, String buscketName, String key, File data) throws IOException {
+		s3.putObject(buscketName, key, new FileInputStream(data), null);
+	}
+	
+	public static List<String> listKeys(AmazonS3 s3, String buscketName, String prefix) throws IOException {
+		ObjectListing list = s3.listObjects(buscketName, prefix);
+		
+		return list.getObjectSummaries().stream()
+			.map(S3ObjectSummary::getKey)
+			.filter(obj -> !obj.endsWith("/"))
+			.collect(Collectors.toList());
+		
+	}
+	
+	public static S3ObjectInputStream getInputStream(AmazonS3 s3, String buscketName, String key) throws IOException {
+		S3Object s3Obj = s3.getObject(buscketName, key);
+		return s3Obj.getObjectContent();
+	}
+	
+	public static byte[] getBytes(AmazonS3 s3, String buscketName, String key) throws IOException {
+		try {
+			S3Object s3Obj = s3.getObject(buscketName, key);
+			return IOUtils.toByteArray(s3Obj.getObjectContent());
+		} catch (AmazonS3Exception e) {
+			if (e.getStatusCode() == HttpStatus.SC_NOT_FOUND) {
+				return null;
+			} else {
+				throw e;
+			}
+		}
+	}
+	
+	public static void deleteObject(AmazonS3 s3, String buscketName, String key) throws IOException {
+		s3.deleteObject(buscketName, key);
 	}
 }
