@@ -227,7 +227,7 @@ public class StringUtils {
 
 		if(value.length() <= maxLength)return value;
 
-		return concat(value.substring(0, maxLength), textOverflow);
+		return concat(value.substring(0, maxLength-textOverflow.length()), textOverflow);
 	}
 
 	public static String wrap(String text, int lineSize) {
