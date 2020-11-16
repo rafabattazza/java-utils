@@ -234,16 +234,24 @@ public class Utils {
 		
 		return convertToNestedMap(row);
 	}
-
-	
 	public static List<Map<String, Object>> convertJpaListTupleToNestedMap(String fields, List<Object[]> data){
+		return convertJpaListTupleToNestedMap(fields, ",", data);
+	}
+	
+	
+	public static List<Map<String, Object>> convertJpaListTupleToNestedMap(String fields, String spliter, List<Object[]> data){
 		List<Map<String, Object>> result = new ArrayList<>();
-		List<String> fieldList = Splitter.on(",").trimResults().splitToList(fields);
+		List<String> fieldList = Splitter.on(spliter).trimResults().splitToList(fields);
 		
 		for(Object[] rowData : data) {
 			Map<String, Object> row = new HashMap<>();
 			for(int i = 0; i < fieldList.size(); i++) {
-				row.put(fieldList.get(i), rowData[i]);
+				String name = fieldList.get(i);
+				if(name.toLowerCase().indexOf(" as ") >= 0) {
+					name = name.substring(name.toLowerCase().indexOf(" as ") + 4).trim();
+				}
+				
+				row.put(name, rowData[i]);
 			}
 			result.add(convertToNestedMap(row));
 		}
