@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -100,6 +101,21 @@ public class Utils {
 			return chave;
 		} catch (Exception e) {
 			throw new RuntimeException("Erro ao criptografar senha", e);
+		}
+	}
+	
+	public static String encryptBase64(String text) {
+		try {
+			return Base64.getUrlEncoder().encodeToString(text.getBytes());
+		} catch (Exception e) {
+			throw new RuntimeException("Encrypt String error", e);
+		}
+	}
+	public static String decryptBase64(String text) {
+		try {
+			return new String(Base64.getUrlDecoder().decode(text.getBytes()));
+		} catch (Exception e) {
+			throw new RuntimeException("Decrypt String error", e);
 		}
 	}
 
