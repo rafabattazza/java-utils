@@ -77,6 +77,13 @@ public class StringUtils {
 		return "";
 	}
 	
+	public static String firstNotNull(String ... values) {
+		for(String val : values) {
+			if(val != null)return val;
+		}
+		return "";
+	}
+	
 	public static String getStackTrace(Throwable t) {
 		try {
 			try(StringWriter sr = new StringWriter(); PrintWriter wr = new PrintWriter(sr)){

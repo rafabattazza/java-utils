@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser.Feature;
@@ -35,6 +36,16 @@ public class JSonMapperCreator {
 
 		return jsonMapper;
 	}
+	
+	public static ObjectMapper createWithNoAttFilter(Predicate<String> noAttFilter) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		config(objectMapper);
+
+		SimpleModule noIdModule = new SimpleModule();
+		noIdModule.setSerializerModifier(new FilteredSerializedModifier(noAttFilter));
+		objectMapper.registerModule(noIdModule);
+		return objectMapper;
+	}
 
 	private static void config(ObjectMapper objectMapper) {
 		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
@@ -52,7 +63,7 @@ public class JSonMapperCreator {
 		objectMapper.registerModule(createModuleToORM("dd/MM/yyyy", "dd/MM/yyyy HH:mm", "HH:mm"));
 	}
 	
-	public static SimpleModule createModuleToORM(String dateFmt, String dateTimeFmt, String timeFmt) {
+	private static SimpleModule createModuleToORM(String dateFmt, String dateTimeFmt, String timeFmt) {
 		SimpleModule module = new SimpleModule();
 		module.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(dateFmt)));
 		module.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(dateFmt)));
