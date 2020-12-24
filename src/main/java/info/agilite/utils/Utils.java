@@ -118,6 +118,21 @@ public class Utils {
 			throw new RuntimeException("Decrypt String error", e);
 		}
 	}
+	
+	public static String encryptBase64(byte[] value) {
+		try {
+			return Base64.getUrlEncoder().encodeToString(value);
+		} catch (Exception e) {
+			throw new RuntimeException("Encrypt String error", e);
+		}
+	}
+	public static byte[] decryptBase64(byte[] value) {
+		try {
+			return Base64.getUrlDecoder().decode(value);
+		} catch (Exception e) {
+			throw new RuntimeException("Decrypt String error", e);
+		}
+	}
 
 	/**
 	 * Cria um MAP baseado nos valores passados, os valores devem ser informados em pares, o primeiro será a Key e o segundo será o value

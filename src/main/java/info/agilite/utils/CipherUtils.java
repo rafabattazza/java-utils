@@ -9,7 +9,7 @@ public class CipherUtils {
 		try {
 			Cipher encripta = Cipher.getInstance("AES/CBC/PKCS5Padding", "SunJCE");
 			SecretKeySpec key = new SecretKeySpec(cipherKey.getBytes("UTF-8"), "AES");
-			encripta.init(Cipher.ENCRYPT_MODE, key,new IvParameterSpec(IV.getBytes("UTF-8")));
+			encripta.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(IV.getBytes("UTF-8")));
 			return encripta.doFinal(text.getBytes("UTF-8"));
 		} catch (Exception e) {
 			throw new RuntimeException("Encrypt error", e);
