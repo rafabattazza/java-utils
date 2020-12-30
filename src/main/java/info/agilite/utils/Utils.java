@@ -14,6 +14,7 @@ import java.util.TreeMap;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -205,7 +206,10 @@ public class Utils {
 	}
 	
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static List<Map<String, Object>> convertToNestedMapList(List<Map<String, Object>>  list){
+		return list.stream().map(row -> Utils.convertToNestedMap(row)).collect(Collectors.toList());
+	}
+	
 	public static Map<String, Object> convertToNestedMap(Map<String, Object>  map){
 		Map<String, Object> result = new HashMap<String, Object>();
 		
