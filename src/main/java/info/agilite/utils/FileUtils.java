@@ -24,25 +24,13 @@ public class FileUtils {
 			file.getParentFile().mkdirs();
 		file.createNewFile();
 	}
-	
-	public static void createDirAndReplaceFile(File file) throws IOException {
-		if(file.exists())file.delete();
-		if (!file.getParentFile().exists())
-			file.getParentFile().mkdirs();
-		file.createNewFile();
-	}
 
 	public static void override(String fileName, String data) throws IOException {
 		FileUtils.override(new File(fileName), data);
 	}
 	
 	public static void override(File file, String data) throws IOException {
-		if(file.exists())file.delete();
-		if(file.getParentFile() != null && !file.getParentFile().exists())file.getParentFile().mkdirs();
-		file.createNewFile();
-		try(FileOutputStream os = new FileOutputStream(file)){
-			IOUtils.write(data, os, "UTF-8");
-		}
+		override(file, data.getBytes("UTF-8"));
 	}
 	
 	public static void override(File file, byte[] data) throws IOException {
@@ -55,13 +43,33 @@ public class FileUtils {
 	}
 	
 	public static String streamToString(InputStream is) throws IOException {
-		return FileUtils.streamToString(is, "UTF-8");
+		return streamToString(is, "UTF-8");
 	}
 	
 	public static String streamToString(InputStream is, String encoding) throws IOException {
 		try(StringWriter wr = new StringWriter()){
 			IOUtils.copy(is, wr, encoding);
 			return wr.toString();
+		}
+	}
+	
+	public static void createRootFolderFileValidate() {
+		File f = new File("./test.dat");
+		try {
+			if(f.exists()) {
+				boolean deleted = f.delete();
+				if(!deleted)throw new RuntimeException("Arquivo de teste não pode ser deletado");
+			}
+			boolean created = f.createNewFile();
+			if(!created)throw new RuntimeException("Arquivo de teste não foi criado");
+			
+			if(!f.canRead() || !f.canWrite())throw new RuntimeException("Sem permissão de acesso ao arquivo");
+			
+			boolean deleted = f.delete();
+			if(!deleted)throw new RuntimeException("Arquivo de teste não pode ser deletado");
+			
+		} catch (IOException e) {
+			throw new RuntimeException("Seu usuário do sistema operacional não tem permissão para criar/deletar arquivos na pasta de instalação do programa");
 		}
 	}
 }
