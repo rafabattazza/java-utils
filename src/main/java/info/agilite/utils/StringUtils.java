@@ -167,6 +167,18 @@ public class StringUtils {
 		}
 		return retorno.toString();
 	}
+	
+	public static String formatCpfOuCnpj(String cpfCnpj) {
+		String numeros = extractNumbers(cpfCnpj);
+		if(numeros.length() == 11) {
+			return format("###.###.###-##", numeros);
+		}else {
+			return format("##.###.###/####-##", numeros);
+		}
+		
+	}
+	
+	
 	/**
 	 * Formata uma String a mascara deve ser criada por #, irá adicionar 0 onde não tiver digitos 
 	 */

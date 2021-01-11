@@ -56,20 +56,36 @@ public class FileUtils {
 	public static void createRootFolderFileValidate() {
 		File f = new File("./test.dat");
 		try {
-			if(f.exists()) {
-				boolean deleted = f.delete();
-				if(!deleted)throw new RuntimeException("Arquivo de teste não pode ser deletado");
-			}
-			boolean created = f.createNewFile();
-			if(!created)throw new RuntimeException("Arquivo de teste não foi criado");
-			
-			if(!f.canRead() || !f.canWrite())throw new RuntimeException("Sem permissão de acesso ao arquivo");
-			
-			boolean deleted = f.delete();
-			if(!deleted)throw new RuntimeException("Arquivo de teste não pode ser deletado");
+			validarAcessoAoDiretorio(f);
 			
 		} catch (IOException e) {
 			throw new RuntimeException("Seu usuário do sistema operacional não tem permissão para criar/deletar arquivos na pasta de instalação do programa");
 		}
+	}
+	
+	public static void validarAcessoCompletoAoDiretorio(File diretorio) {
+		File f = new File(diretorio, "./test.dat");
+		String path = null;
+		try {
+			path = diretorio.getCanonicalPath();
+			diretorio.mkdirs();
+			validarAcessoAoDiretorio(f);
+		} catch (IOException e) {
+			throw new RuntimeException("Seu usuário do sistema operacional não tem permissão para criar/deletar arquivos na pasta " + path);
+		}
+	}
+
+	private static void validarAcessoAoDiretorio(File f) throws IOException {
+		if(f.exists()) {
+			boolean deleted = f.delete();
+			if(!deleted)throw new RuntimeException("Arquivo de teste não pode ser deletado");
+		}
+		boolean created = f.createNewFile();
+		if(!created)throw new RuntimeException("Arquivo de teste não foi criado");
+		
+		if(!f.canRead() || !f.canWrite())throw new RuntimeException("Sem permissão de acesso ao arquivo");
+		
+		boolean deleted = f.delete();
+		if(!deleted)throw new RuntimeException("Arquivo de teste não pode ser deletado");
 	}
 }
