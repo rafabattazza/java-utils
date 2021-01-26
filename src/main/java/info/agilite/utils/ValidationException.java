@@ -17,6 +17,12 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor(access=AccessLevel.PUBLIC)
 @Getter
 public class ValidationException extends RuntimeException{
-	String message;
+	public ValidationException(String message) {
+		super(message);
+	}
+
+	public ValidationException(String message, Throwable cause) {
+		super(message, cause);
+	}
 	
 }

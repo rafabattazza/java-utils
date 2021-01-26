@@ -60,6 +60,7 @@ public class JSonMapperCreator {
 		hibernateModule.disable(Hibernate5Module.Feature.USE_TRANSIENT_ANNOTATION);
 		objectMapper.registerModule(hibernateModule);
 		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.registerModule(StringTrimModifier.createTrimModule());
 		objectMapper.registerModule(createModuleToORM("dd/MM/yyyy", "dd/MM/yyyy HH:mm", "HH:mm"));
 	}
 	
