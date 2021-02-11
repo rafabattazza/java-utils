@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 public class DateUtils {
 	public static long dateDiff(LocalTime ini, LocalTime fim, ChronoUnit unit) {
@@ -61,6 +62,9 @@ public class DateUtils {
 		return new LocalDate[] {base.withDayOfMonth(1), base.withDayOfMonth(base.lengthOfMonth())};
 	}
 	
+	public static LocalDate date2LocalDate(Date date) {
+		return new java.sql.Date(date.getTime()).toLocalDate();
+	}
 	
 	//PaseUtils
 	public static LocalDate parseDate(String value)  {

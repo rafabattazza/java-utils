@@ -22,8 +22,15 @@ import com.google.common.base.Strings;
 public class Utils {
 
 	public static boolean in(Object value, Object ... in) {
-		if(value == null || in == null)throw new NullPointerException("Impossível executar comparação IN com objetos nulos");
+		if(in == null)throw new NullPointerException("Impossível executar comparação IN com objetos nulos");
 
+		if(value == null) {
+			for(Object val : in) {
+				if(val == null)return true;
+			}
+			return false;
+		}
+		
 		for(Object val : in) {
 			if(val == null)continue;
 			if(val.equals(value))return true;
@@ -107,14 +114,14 @@ public class Utils {
 	
 	public static String encryptBase64(String text) {
 		try {
-			return Base64.getUrlEncoder().encodeToString(text.getBytes());
+			return Base64.getUrlEncoder().encodeToString(text.getBytes("UTF-8"));
 		} catch (Exception e) {
 			throw new RuntimeException("Encrypt String error", e);
 		}
 	}
 	public static String decryptBase64(String text) {
 		try {
-			return new String(Base64.getUrlDecoder().decode(text.getBytes()));
+			return new String(Base64.getUrlDecoder().decode(text.getBytes("UTF-8")), "UTF-8");
 		} catch (Exception e) {
 			throw new RuntimeException("Decrypt String error", e);
 		}

@@ -41,6 +41,12 @@ public class StringUtils {
 		return value.substring(0, 1).toLowerCase()+(value.substring(1));
 	}
 
+	public static String substring(String value, int max) {
+		if(value.length() <= max)return value;
+
+		return value.substring(0, max);
+	}
+
 	public static String extractNumbers(String texto){
 		if(texto == null || texto.length() == 0)return null;
 
