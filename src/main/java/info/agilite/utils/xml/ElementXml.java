@@ -171,6 +171,22 @@ public class ElementXml implements Serializable {
 		}
 		throw new AttributeInvalidException("O Atributo '" + name + "' não existe no elemento '" + element.getNodeName() + "'");
 	}
+	
+	public String getResumo() {
+		StringBuilder result = new StringBuilder();
+		final NodeList list = this.element.getChildNodes();
+		
+		for(int i = 0; i < list.getLength(); i++) {
+			if(list.item(i).hasChildNodes()) {
+				result.append(new ElementXml((Element)list.item(i)).getResumo());
+			}else {
+				result.append(list.item(i).getNodeValue()).append("|");
+			}
+		}
+		
+		return result.toString();
+	}
+	
 	public Element getDomElement() {
 		return this.element;
 	}
