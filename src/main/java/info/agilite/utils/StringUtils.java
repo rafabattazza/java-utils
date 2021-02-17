@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -392,5 +393,9 @@ public class StringUtils {
 	public static String repeate(String val, int size) {
 		if(val == null || val.length() == 0 || size == 0)return "";
 		return new String(new char[size]).replace("\0", val);
+	}
+	
+	public static String gerarSenha(int length) {
+	   return UUID.randomUUID().toString().substring(0, length);
 	}
 }
