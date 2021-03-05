@@ -104,10 +104,30 @@ public class ElementXml implements Serializable {
 		}
 		return null;
 	}
+	public List<String> findChildrenValueS(String ... queries) {
+		for(String query : queries) {
+			List<ElementXml> childrenNode = findChildrenNodeS(query);
+			if(childrenNode.size() > 0) {
+				List<String> childrenValue = new ArrayList<>();
+				for(ElementXml child : childrenNode) {
+					childrenValue.add(child.getValue());
+				}
+				return childrenValue;
+			}
+		}
+		return null;
+	}
 	public ElementXml findFirstChildNode(String ... queries) {
 		for(String query : queries) {
 			ElementXml child = findChildNode(query);
 			if(child != null)return child;
+		}
+		return null;
+	}
+	public List<ElementXml> findChildrenNodeS(String ... queries) {
+		for(String query : queries) {
+			List<ElementXml> children = findChildNodes(query);
+			if(children.size() > 0)return children;
 		}
 		return null;
 	}
