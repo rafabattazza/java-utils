@@ -398,4 +398,16 @@ public class StringUtils {
 	public static String gerarSenha(int length) {
 	   return UUID.randomUUID().toString().substring(0, length);
 	}
+	
+	public static String completarComZero(Object value, int minLength){
+		if(value == null)return null;
+		String texto = value.toString();
+		if(texto.length() >= minLength)return texto;
+			
+		StringBuilder completar = new StringBuilder("");
+		for(int i = 0; i < minLength; i++, completar.append('0'));
+
+		texto = completar.toString() + texto;
+		return texto.substring((texto.length()-minLength), texto.length());
+	}
 }

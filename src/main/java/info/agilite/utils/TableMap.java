@@ -40,6 +40,11 @@ public class TableMap extends HashMap<String, Object> {
 		}
 	}
 	
+	public TableMap(Object ... values) {
+		this(Utils.map(values));
+	}
+	
+	
 	@Override
 	public Object get(Object key) {
 		if(key == null)return super.get(null);
