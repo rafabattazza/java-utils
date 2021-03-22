@@ -39,12 +39,22 @@ public class S3Utils {
 	}
 	
 	
-	public static List<String> listKeys(AmazonS3 s3, String buscketName, String prefix) throws IOException {
+	public static List<String> listFiles(AmazonS3 s3, String buscketName, String prefix) throws IOException {
 		ObjectListing list = s3.listObjects(buscketName, prefix);
 		
 		return list.getObjectSummaries().stream()
 			.map(S3ObjectSummary::getKey)
 			.filter(obj -> !obj.endsWith("/"))
+			.collect(Collectors.toList());
+		
+	}
+	
+	public static List<String> listDirectories(AmazonS3 s3, String buscketName, String prefix) throws IOException {
+		ObjectListing list = s3.listObjects(buscketName, prefix);
+		
+		
+		return list.getObjectSummaries().stream()
+			.map(S3ObjectSummary::getKey)
 			.collect(Collectors.toList());
 		
 	}
