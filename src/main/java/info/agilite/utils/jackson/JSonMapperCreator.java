@@ -30,7 +30,17 @@ public class JSonMapperCreator {
 	public static ObjectMapper create() {
 		if(jsonMapper == null) {
 			ObjectMapper objectMapper = new ObjectMapper();
-			config(objectMapper);
+			config(objectMapper, true);
+			jsonMapper = objectMapper;
+		}
+
+		return jsonMapper;
+	}
+	
+	public static ObjectMapper createNoHibernate() {
+		if(jsonMapper == null) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			config(objectMapper, false);
 			jsonMapper = objectMapper;
 		}
 
@@ -39,7 +49,7 @@ public class JSonMapperCreator {
 	
 	public static ObjectMapper createWithNoAttFilter(Predicate<String> noAttFilter) {
 		ObjectMapper objectMapper = new ObjectMapper();
-		config(objectMapper);
+		config(objectMapper, true);
 
 		SimpleModule noIdModule = new SimpleModule();
 		noIdModule.setSerializerModifier(new FilteredSerializedModifier(noAttFilter));
@@ -47,7 +57,7 @@ public class JSonMapperCreator {
 		return objectMapper;
 	}
 
-	private static void config(ObjectMapper objectMapper) {
+	private static void config(ObjectMapper objectMapper, boolean includeHibernate) {
 		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		objectMapper.configure(Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
@@ -56,9 +66,12 @@ public class JSonMapperCreator {
 		objectMapper.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
 		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 		
-		Hibernate5Module hibernateModule = new Hibernate5Module();
-		hibernateModule.disable(Hibernate5Module.Feature.USE_TRANSIENT_ANNOTATION);
-		objectMapper.registerModule(hibernateModule);
+		if(includeHibernate) {
+			Hibernate5Module hibernateModule = new Hibernate5Module();
+			hibernateModule.disable(Hibernate5Module.Feature.USE_TRANSIENT_ANNOTATION);
+			objectMapper.registerModule(hibernateModule);
+		}
+		
 		objectMapper.registerModule(new JavaTimeModule());
 		objectMapper.registerModule(StringTrimModifier.createTrimModule());
 		objectMapper.registerModule(createModuleToORM("dd/MM/yyyy", "dd/MM/yyyy HH:mm", "HH:mm"));

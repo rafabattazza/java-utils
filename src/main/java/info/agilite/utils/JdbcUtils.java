@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JdbcUtils {
 
@@ -22,6 +24,16 @@ public class JdbcUtils {
 		}
 		
 		return listMap;
+	}
+	
+	public static <T, E> Map<T, E> createMapByResultSet(ResultSet rs, String colKey, String colVal) throws SQLException{
+		Map<T, E> result = new HashMap<T, E>();
+		
+		while(rs.next()) {
+			result.put((T)rs.getObject(colKey), (E)rs.getObject(colVal));
+		}
+		
+		return result;
 	}
 	
 	private static Object convertJDBCObject(Object obj) {

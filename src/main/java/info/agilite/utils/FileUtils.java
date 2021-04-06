@@ -53,6 +53,20 @@ public class FileUtils {
 		}
 	}
 	
+	public static String readOrNull(String fileName) {
+		return readOrNull(new File(fileName));
+	}
+
+	public static String readOrNull(File file) {
+		if(!file.exists())return null;
+		try {
+			return Files.readString(file.toPath());
+		} catch (Exception e) {
+			throw new RuntimeException("Erro ao ler arquivo '" + file.getName() + "'", e);
+		}
+	}
+
+	
 	public static void createRootFolderFileValidate() {
 		File f = new File("./test.dat");
 		try {
