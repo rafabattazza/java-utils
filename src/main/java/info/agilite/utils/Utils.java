@@ -119,9 +119,29 @@ public class Utils {
 			throw new RuntimeException("Encrypt String error", e);
 		}
 	}
+	public static String encryptBase64(String text, int repeate) {
+		try {
+			for(int i = 0; i < repeate; i++) {
+				text = Base64.getUrlEncoder().encodeToString(text.getBytes("UTF-8"));
+			}
+			return text;
+		} catch (Exception e) {
+			throw new RuntimeException("Encrypt String error", e);
+		}
+	}
 	public static String decryptBase64(String text) {
 		try {
 			return new String(Base64.getUrlDecoder().decode(text.getBytes("UTF-8")), "UTF-8");
+		} catch (Exception e) {
+			throw new RuntimeException("Decrypt String error", e);
+		}
+	}
+	public static String decryptBase64(String text, int repeate) {
+		try {
+			for(int i = 0; i < repeate; i++) {
+				text = new String(Base64.getUrlDecoder().decode(text.getBytes("UTF-8")), "UTF-8");
+			}
+			return text;
 		} catch (Exception e) {
 			throw new RuntimeException("Decrypt String error", e);
 		}
