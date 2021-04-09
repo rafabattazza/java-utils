@@ -3,9 +3,15 @@ package info.agilite.utils.jackson;
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+
+import info.agilite.utils.StringUtils;
 
 public class StringTrimModifier {
 	public static SimpleModule createTrimModule() {
@@ -16,7 +22,23 @@ public class StringTrimModifier {
 				if (value != null) {
 					value = value.trim();
 				}
-				gen.writeString(value);
+				if(value.length() == 0) {
+					gen.writeString((String)null);
+				}else {
+					gen.writeString(value);
+				}
+			}
+		});
+
+		module.addDeserializer(String.class, new JsonDeserializer<String>() {
+			@Override
+			public String deserialize(JsonParser p, DeserializationContext ctxt)throws IOException, JsonProcessingException {
+				String receivedValue = p.getText();
+				if (StringUtils.isNullOrEmpty(receivedValue)) {
+					return null;
+				}else {
+					return receivedValue.trim();
+				}
 			}
 		});
 
