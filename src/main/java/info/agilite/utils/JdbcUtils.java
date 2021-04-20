@@ -26,6 +26,22 @@ public class JdbcUtils {
 		return listMap;
 	}
 	
+	public static List<TableMap> createTableMapByData(List<Object[]> dados, String ... colunas){
+		List<TableMap> listMap = new ArrayList<>();
+		
+		for(Object[] row : dados) {
+			TableMap tm = new TableMap();
+			
+			for(int i = 0; i < colunas.length; i++) {
+				tm.put(colunas[i], row[i]);
+			}
+			
+			listMap.add(tm);
+		}
+		
+		return listMap;
+	}
+	
 	public static <T, E> Map<T, E> createMapByResultSet(ResultSet rs, String colKey, String colVal) throws SQLException{
 		Map<T, E> result = new HashMap<T, E>();
 		
