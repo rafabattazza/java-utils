@@ -5,7 +5,7 @@
 
 	<groupId>info.agilite</groupId>
 	<artifactId>java-utils</artifactId>
-	<version>2.0.0</version>
+	<version>2.0.0J8</version>
 	<packaging>jar</packaging>
 
 	<name>java-utils</name>
@@ -14,7 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>15</java.version>
+		<java.version>8</java.version>
 	</properties>
 	
 	<dependencies>
@@ -69,8 +69,8 @@
 			  <artifactId>maven-compiler-plugin</artifactId>
 			  <version>3.8.0</version>
 			  <configuration>
-			    <source>15</source>
-			    <target>15</target>
+			    <source>8</source>
+			    <target>8</target>
 			  </configuration>
 			</plugin>	
 		</plugins>

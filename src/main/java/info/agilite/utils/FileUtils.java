@@ -2,6 +2,7 @@ package info.agilite.utils;
 
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +10,7 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 
@@ -59,8 +61,8 @@ public class FileUtils {
 
 	public static String readOrNull(File file) {
 		if(!file.exists())return null;
-		try {
-			return Files.readString(file.toPath());
+		try (FileInputStream is = new FileInputStream(file)) {
+			return IOUtils.readLines(is, "UTF-8").stream().collect(Collectors.joining("\n"));
 		} catch (Exception e) {
 			throw new RuntimeException("Erro ao ler arquivo '" + file.getName() + "'", e);
 		}
