@@ -374,6 +374,8 @@ public class StringUtils {
 		text = text.replaceAll("[ÍÌÎÏ]", "I");
 		text = text.replaceAll("[ÓÒÕÔÖ]", "O");
 		text = text.replaceAll("[ÚÙÛÜ]", "U");
+		text = text.replaceAll("[Ç]", "C");
+		text = text.replaceAll("[ç]", "c");
 
 		return text;
 	}
