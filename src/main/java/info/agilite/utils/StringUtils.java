@@ -143,7 +143,7 @@ public class StringUtils {
 	}
 	public static String substringBetween(String texto, String strStart, String strEnd) {
 		texto = substringAfterFirst(texto, strStart);
-		return substringBeforeLast(texto, strEnd);
+		return substringBeforeFirst(texto, strEnd);
 	}
 	public static String substringBeforeFirst(String texto, String character) {
 		int index = texto.toUpperCase().indexOf(character.toUpperCase());
